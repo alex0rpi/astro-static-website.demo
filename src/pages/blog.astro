@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Card from '../components/Card.astro';
+import Showcase from '../components/Showcase.astro';
+// Grab all markdown files in a folder we have in the project.
+const posts = await Astro.glob('../posts/*.md');
+// Sooo much easier than in nextjs or gatsby
+---
+
+<Layout title="Astro Blog">
+  <Showcase
+    heading="Astro Blg"
+    text="Simple blog build with astro, using local markdown files easily accessed"
+  />
+
+  <section class="page-content">
+    <div class="container">
+      {
+        posts.map((post) => (
+          <Card>
+            <h3>{post.frontmatter.title}</h3>
+            <div>
+              Written by <strong>{post.frontmatter.author}</strong> on{' '}
+              {new Date(post.frontmatter.Date).toLocaleDateString()}
+            </div>
+            <p>{post.frontmatter.excerpt}</p>
+            <a class="btn" href={`/${post.frontmatter.slug}`}>
+              Read more
+            </a>
+          </Card>
+        ))
+      }
+    </div>
+  </section>
+</Layout>
